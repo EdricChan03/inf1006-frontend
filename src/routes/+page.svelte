@@ -7,6 +7,17 @@
   import VideoOffIcon from 'lucide-svelte/icons/video-off';
 
   const date = new Date();
+
+  let isMotorToggled = $state(false);
+  let isLedToggled = $state(false);
+
+  const onToggleMotor = () => {
+    isMotorToggled = !isMotorToggled;
+  };
+
+  const onToggleLed = () => {
+    isLedToggled = !isLedToggled;
+  };
 </script>
 
 <header class="bg-sky-300 p-3">
@@ -54,12 +65,16 @@
     </header>
     <div class="grid gap-3">
       <button
-        class="bg-orange-200 hover:bg-orange-300 active:bg-orange-400 rounded shadow border-2 border-orange-400 focus:ring focus-visible:outline-none focus:ring-orange-500 transition-all p-3 flex flex-col gap-2 place-content-center items-center"
-        ><LightbulbIcon />Toggle LEDs</button
+        class="bg-orange-200 hover:bg-orange-300 active:bg-orange-400 rounded shadow border-2 border-orange-400 focus:ring focus-visible:outline-none focus:ring-orange-500 transition-all p-3 flex flex-col gap-2 place-content-center items-center aria-checked:bg-orange-400"
+        role="switch"
+        aria-checked={isLedToggled}
+        onclick={onToggleLed}><LightbulbIcon />Toggle LEDs</button
       >
       <button
-        class="bg-emerald-200 hover:bg-emerald-300 active:bg-emerald-400 rounded shadow border-2 border-emerald-400 focus:ring focus-visible:outline-none focus:ring-emerald-500 transition-all p-3 flex flex-col gap-2 place-content-center items-center"
-        ><CircleGaugeIcon />Toggle motor</button
+        class="bg-emerald-200 hover:bg-emerald-300 active:bg-emerald-400 rounded shadow border-2 border-emerald-400 focus:ring focus-visible:outline-none focus:ring-emerald-500 transition-all p-3 flex flex-col gap-2 place-content-center items-center aria-checked:bg-emerald-400"
+        role="switch"
+        aria-checked={isMotorToggled}
+        onclick={onToggleMotor}><CircleGaugeIcon />Toggle motor</button
       >
     </div>
   </section>
