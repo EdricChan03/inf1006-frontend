@@ -51,7 +51,7 @@
   const onCircleHover = (d: number) => (e: MouseEvent) => {
     console.log(e.type);
     hoveredItem = d;
-    tooltipPos = { left: e?.clientX ?? 0, top: e?.clientY ?? 0 };
+    tooltipPos = { left: e?.pageX ?? 0, top: e?.pageY ?? 0 };
   };
 
   const onCircleUnHover = () => {
