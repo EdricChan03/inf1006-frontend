@@ -73,10 +73,12 @@
       class="rounded border text-white px-2 flex items-center gap-2 transition-all focus:ring focus-visible:outline-none {getStatusData(
         status
       ).classes}"
-      ><svelte:component this={getStatusData(status).icon} size={16} aria-hidden="true" /><span
-        class="sr-only"
-        >Status:
-      </span>{getStatusData(status).text}</Popover.Trigger
+      ><svelte:component
+        this={getStatusData(status).icon}
+        size={16}
+        aria-hidden="true"
+        class={getStatusData(status).iconClass}
+      /><span class="sr-only">Status: </span>{getStatusData(status).text}</Popover.Trigger
     >
     <Popover.Content
       class="z-30 w-full max-w-[328px] rounded-xl border border-slate-300 bg-slate-100 shadow-md"
