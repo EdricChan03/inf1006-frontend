@@ -11,6 +11,8 @@
   import CameraDashboardCard from '$lib/ui/camera/CameraDashboardCard.svelte';
   import SensorDashboardCard from '$lib/ui/sensors/SensorDashboardCard.svelte';
 
+  import SettingsButton from '$lib/ui/settings/SettingsButton.svelte';
+
   import { flyAndScale } from '$lib/utils/transitions/fly-and-scale';
 
   import { getData } from '$lib/api/data';
@@ -85,8 +87,8 @@
   });
 </script>
 
-<header class="bg-sky-300 p-3 flex justify-between">
-  <h1 class="font-semibold text-xl">Watering Can</h1>
+<header class="bg-sky-300 p-3 flex gap-3">
+  <h1 class="font-semibold text-xl mr-auto">Watering Can</h1>
   <Popover.Root>
     <Popover.Trigger
       class="rounded border text-white px-2 flex items-center gap-2 transition-all focus:ring focus-visible:outline-none {getStatusData(
@@ -123,6 +125,8 @@
       </main>
     </Popover.Content>
   </Popover.Root>
+
+  <SettingsButton />
 </header>
 
 <main class="grid md:grid-cols-3 auto-cols-auto gap-6 m-6">
