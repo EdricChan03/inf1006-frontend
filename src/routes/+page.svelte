@@ -1,8 +1,6 @@
 <script lang="ts">
   import { Popover } from 'bits-ui';
-  import CircleGaugeIcon from 'lucide-svelte/icons/circle-gauge';
   import RefreshCwIcon from 'lucide-svelte/icons/refresh-cw';
-  import VideoOffIcon from 'lucide-svelte/icons/video-off';
   import XIcon from 'lucide-svelte/icons/x';
 
   import { intlFormatDistance } from 'date-fns';
@@ -10,6 +8,7 @@
   import StatusChip from '$lib/components/status/StatusChipContent.svelte';
 
   import ActionsDashboardCard from '$lib/ui/actions/ActionsDashboardCard.svelte';
+  import CameraDashboardCard from '$lib/ui/camera/CameraDashboardCard.svelte';
   import SensorDashboardCard from '$lib/ui/sensors/SensorDashboardCard.svelte';
 
   import { flyAndScale } from '$lib/utils/transitions/fly-and-scale';
@@ -139,14 +138,5 @@
   <ActionsDashboardCard {onActivateSensorsClick} />
 
   <!-- Camera feed -->
-  <section
-    class="rounded bg-lime-200 p-3 flex flex-col gap-3 border border-lime-400 md:col-span-full"
-  >
-    <figure class="flex flex-col gap-2 rounded">
-      <figcaption class="text-2xl">Camera Feed</figcaption>
-      <div class="flex place-content-center p-10 border border-black rounded">
-        <VideoOffIcon size={48} />
-      </div>
-    </figure>
-  </section>
+  <CameraDashboardCard />
 </main>
