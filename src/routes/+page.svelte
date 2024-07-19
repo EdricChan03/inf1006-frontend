@@ -7,10 +7,10 @@
 
   import { intlFormatDistance } from 'date-fns';
 
-  import LineChart from '$lib/components/charts/LineChart.svelte';
   import StatusChip from '$lib/components/status/StatusChipContent.svelte';
 
-  import { prettifyDate } from '$lib/utils/date/format';
+  import SensorDashboardCard from '$lib/ui/sensors/SensorDashboardCard.svelte';
+
   import { flyAndScale } from '$lib/utils/transitions/fly-and-scale';
 
   import { getData } from '$lib/api/data';
@@ -127,28 +127,12 @@
 
 <main class="grid md:grid-cols-3 auto-cols-auto gap-6 m-6">
   <!-- Sensor data -->
-  <section
-    class="rounded bg-slate-200 p-3 flex flex-col gap-3 border border-slate-400 md:col-span-2"
-  >
-    <header class="flex justify-between">
-      <div>
-        <h2 class="text-2xl">Sensor data</h2>
-        <p class="italic text-sm">
-          Last updated at <time datetime={date.toISOString()}>{prettifyDate(date)}</time>
-        </p>
-      </div>
-    </header>
-    <div class="grid gap-3 md:grid-flow-col auto-cols-auto">
-      <figure class="bg-white p-2 flex flex-col gap-2 rounded">
-        <LineChart data={$temperatureSensor} formatPoint={(d) => `${d}°C`} />
-        <figcaption class="text-lg">Temperature</figcaption>
-      </figure>
-      <figure class="bg-white p-2 flex flex-col gap-2 rounded">
-        <LineChart data={$humiditySensor} formatPoint={(d) => `${d}%`} />
-        <figcaption class="text-lg">Moisture</figcaption>
-      </figure>
-    </div>
-  </section>
+  <SensorDashboardCard
+    klass="md:col-span-2"
+    lastUpdated={date}
+    temperatureData={$temperatureSensor}
+    humidityData={$humiditySensor}
+  />
   <!-- Actions -->
   <section class="rounded bg-purple-200 p-3 flex flex-col gap-3 border border-purple-400">
     <header>
