@@ -3,7 +3,10 @@ export const getData = async () => {
     await fetch('/api/data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: ''
+      // TODO: Verify
+      body: JSON.stringify({
+        phone_numbers: []
+      })
     })
   ).json();
 };
