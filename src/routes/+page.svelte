@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Popover } from 'bits-ui';
   import CircleGaugeIcon from 'lucide-svelte/icons/circle-gauge';
-  import PieChartIcon from 'lucide-svelte/icons/pie-chart';
   import RefreshCwIcon from 'lucide-svelte/icons/refresh-cw';
   import VideoOffIcon from 'lucide-svelte/icons/video-off';
   import XIcon from 'lucide-svelte/icons/x';
 
   import { intlFormatDistance } from 'date-fns';
 
+  import LineChart from '$lib/components/charts/LineChart.svelte';
   import StatusChip from '$lib/components/status/StatusChipContent.svelte';
 
   import { prettifyDate } from '$lib/utils/date/format';
@@ -16,6 +16,14 @@
   import { getData } from '$lib/api/data';
   import { Status, statuses } from '$lib/data/status';
   import { activateSensors } from '$lib/api/modify';
+  import { nextRandom } from '$lib/utils/math/random';
+
+  import {
+    humiditySensor,
+    temperatureSensor,
+    addHumidity,
+    addTemperature
+  } from '$lib/data/sensors';
 
   let date = $state(new Date());
 
@@ -45,7 +53,6 @@
   $effect(() => {
     const tick = setInterval(() => {
       currDate = new Date();
-      console.log('tick');
     }, 1000);
 
     return () => clearInterval(tick);
@@ -57,10 +64,20 @@
       getData()
         .then((j) => {
           status = Status.Online;
-          console.log(j);
+          console.log('Data retrieved:', j);
+
+          addHumidity(j.humidity);
+          addTemperature(j.temperature);
         })
         .catch((e) => {
           status = Status.Offline;
+
+          console.error('Could not load data:', e);
+
+          // Add mock data
+          // TODO: Remove
+          addHumidity(nextRandom(0, 100));
+          addTemperature(nextRandom(20, 40));
         });
     }, intervalMs);
 
@@ -123,15 +140,11 @@
     </header>
     <div class="grid gap-3 md:grid-flow-col auto-cols-auto">
       <figure class="bg-white p-2 flex flex-col gap-2 rounded">
-        <div class="flex place-content-center p-10 border border-black rounded">
-          <PieChartIcon size={48} />
-        </div>
+        <LineChart data={$temperatureSensor} formatPoint={(d) => `${d}°C`} />
         <figcaption class="text-lg">Temperature</figcaption>
       </figure>
       <figure class="bg-white p-2 flex flex-col gap-2 rounded">
-        <div class="flex place-content-center p-10 border border-black rounded">
-          <PieChartIcon size={48} />
-        </div>
+        <LineChart data={$humiditySensor} formatPoint={(d) => `${d}%`} />
         <figcaption class="text-lg">Moisture</figcaption>
       </figure>
     </div>
