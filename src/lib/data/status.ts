@@ -9,11 +9,19 @@ export enum Status {
   Offline = 'offline'
 }
 
-export const statuses: Record<Status, { classes: string; icon: ComponentType; text: string }> = {
+interface StatusData {
+  classes: string;
+  icon: ComponentType;
+  iconClass?: string;
+  text: string;
+}
+
+export const statuses: Record<Status, StatusData> = {
   [Status.Loading]: {
     classes:
       'border-slate-700 bg-slate-600 hover:bg-slate-700 active:bg-slate-800 focus:ring-slate-600',
     icon: LoaderCircleIcon,
+    iconClass: 'animate-spin',
     text: 'Loading'
   },
   [Status.Online]: {
