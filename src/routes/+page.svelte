@@ -27,6 +27,8 @@
     addTemperature
   } from '$lib/data/sensors';
 
+  import { mockCameraImgBase64 } from '$lib/data/fakes/camera-img';
+
   let date = $state(new Date());
 
   let intervalMs = $state(3 * 1000); // Every 3 seconds
@@ -52,6 +54,9 @@
   let currDate = $state(new Date());
   let lastUpdated = $derived(formatRelative(date, currDate));
 
+  let cameraBase64 = $state<string | null>(null);
+  let cameraImg = $derived(cameraBase64 ? `data:image/jpeg;base64,${cameraBase64}` : null);
+
   $effect(() => {
     const tick = setInterval(() => {
       currDate = new Date();
@@ -70,6 +75,8 @@
 
           addHumidity(j.humidity);
           addTemperature(j.temperature);
+
+          cameraBase64 = j.image;
         })
         .catch((e) => {
           status = Status.Offline;
@@ -80,6 +87,8 @@
           // TODO: Remove
           addHumidity(nextRandom(0, 100));
           addTemperature(nextRandom(20, 40));
+
+          cameraBase64 = mockCameraImgBase64;
         });
     }, intervalMs);
 
@@ -142,5 +151,5 @@
   <ActionsDashboardCard {onActivateSensorsClick} />
 
   <!-- Camera feed -->
-  <CameraDashboardCard />
+  <CameraDashboardCard cameraBase64Src={cameraImg} lastUpdated={date} />
 </main>
