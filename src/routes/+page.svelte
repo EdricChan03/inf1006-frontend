@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Popover } from 'bits-ui';
-  import RefreshCwIcon from 'lucide-svelte/icons/refresh-cw';
   import XIcon from 'lucide-svelte/icons/x';
 
   import { intlFormatDistance } from 'date-fns';
@@ -27,11 +26,12 @@
     addTemperature
   } from '$lib/data/sensors';
 
+  import { settings } from '$lib/data/settings';
   import { mockCameraImgBase64 } from '$lib/data/fakes/camera-img';
 
   let date = $state(new Date());
 
-  let intervalMs = $state(3 * 1000); // Every 3 seconds
+  let intervalMs = $derived($settings.intervalMs); // Every 3 seconds
 
   let status = $state(Status.Loading);
 
@@ -44,7 +44,7 @@
         console.log(t);
       })
       .catch((e) => {
-        console.log('Could not activate sensors:', e);
+        console.error('Could not activate sensors:', e);
       });
   };
 
@@ -96,11 +96,11 @@
   });
 </script>
 
-<header class="bg-sky-300 p-3 flex gap-3">
+<header class="bg-sky-300 p-3 flex gap-3 items-center">
   <h1 class="font-semibold text-xl mr-auto">Watering Can</h1>
   <Popover.Root>
     <Popover.Trigger
-      class="rounded border text-white px-2 flex items-center gap-2 transition-all focus:ring focus-visible:outline-none {getStatusData(
+      class="rounded border text-white p-2 flex items-center gap-2 transition-all focus:ring focus-visible:outline-none {getStatusData(
         status
       ).classes}"
       ><StatusChip {status} />
@@ -112,12 +112,6 @@
     >
       <header class="flex gap-2 items-center border-b border-slate-700 rounded-t-xl p-3 bg-white">
         <h3 class="text-lg font-bold mr-auto">Status</h3>
-        <button
-          class="flex gap-2 items-center hover:bg-indigo-200 active:bg-indigo-300 rounded border border-indigo-400 focus:ring focus-visible:outline-none focus:ring-indigo-500 transition-all p-2"
-        >
-          <RefreshCwIcon aria-hidden="true" />
-          Refresh
-        </button>
         <Popover.Close
           class="hover:bg-sky-200 active:bg-sky-300 rounded-full border border-sky-400 focus:ring focus-visible:outline-none focus:ring-sky-500 transition-all p-2"
         >
