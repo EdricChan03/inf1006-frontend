@@ -8,7 +8,7 @@
 
   let { klass, settings, onSettingsChange }: SettingsDialogContentProps = $props();
 
-  let tempSettings = $state(settingsOrDefault(settings));
+  let tempSettings = $state(structuredClone(settingsOrDefault(settings)));
 
   const onSaveClick = () => {
     onSettingsChange(tempSettings);
