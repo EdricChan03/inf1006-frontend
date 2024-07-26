@@ -28,7 +28,7 @@
     </figure>
     <figure class="bg-white p-2 flex flex-col gap-2 rounded">
       <LineChart data={humidityData} formatPoint={(d) => `${d}%`} />
-      <figcaption class="text-lg">Moisture</figcaption>
+      <figcaption class="text-lg">Humidity</figcaption>
     </figure>
   </div>
 </section>
