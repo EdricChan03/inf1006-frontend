@@ -10,8 +10,16 @@ export const defaultSettings: Settings = {
   maxSensorPoints: 30
 };
 
+const clampSettings = (s: Settings): Settings => ({
+  intervalMs: Math.max(s.intervalMs, 3000),
+  maxSensorPoints: Math.max(s.maxSensorPoints, 30)
+});
+
 export const settingsKey = 'water:settings';
-export const settings = persisted<Settings>(settingsKey, defaultSettings);
+export const settings = persisted<Settings>(settingsKey, defaultSettings, {
+  beforeWrite: clampSettings,
+  beforeRead: clampSettings
+});
 
 export const hasNoSettings = (settings: Settings) => Object.keys(settings).length === 0;
 
